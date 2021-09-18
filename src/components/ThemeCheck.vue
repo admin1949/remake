@@ -8,8 +8,8 @@
         <div class="top-left">
             <a
                 href="https://github.com/VickScarlet/lifeRestart"
+                target="_black"
                 class="github-corner top-left"
-                style="z-index: 9999;"
                 aria-label="View source on GitHub"
             >
                 <svg
@@ -36,9 +36,9 @@
         </div>
         <div class="top-right">
             <a
-                href="https://github.com/VickScarlet/lifeRestart"
+                href="https://github.com/admin1949/remake"
                 class="github-corner top-right"
-                style="z-index: 9999;"
+                target="_black"
                 aria-label="View source on GitHub"
             >
                 <svg
