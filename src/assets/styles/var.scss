@@ -1,0 +1,89 @@
+$white: (
+    background-color: (
+        level-0: #ededed,
+        active-level-0: #444,
+
+        level-1: #7ea5ec,
+        active-level-1: #407dec,
+
+        level-2: #e2a7ff,
+        active-level-2: #b362e7,
+
+        level-3: #ffa07a,
+        active-level-3: #ff7f4d,
+
+        button: #fff,
+        button-hover: #ff7878,
+        body: #fff,
+    ),
+    color: (
+        button: #000,
+        button-hover: #fff,
+
+        body: #000,
+
+        talent: #666,
+        talent-active: #fff,
+    ),
+    border-color: (
+        button: #ccc
+    )
+);
+
+$dark: (
+    background-color: (
+        level-0: #464646,
+        active-level-0: #c0c0c0,
+
+        level-1: #6495ed,
+        active-level-1: #87cefa,
+
+        level-2: #e2a7ff,
+        active-level-2: #e7beff,
+
+        level-3: #ffa07a,
+        active-level-3: #f1bfac,
+
+        button: #393E46,
+        button-hover: #ff7878,
+
+        body: #222831,
+    ),
+    color: (
+        button: #fff,
+        button-hover: #fff,
+
+        body: #fff,
+
+        talent: #eee,
+        talent-active: #3b3b3b,
+    ),
+    border-color: (
+        button: #ccc
+    )
+);
+
+$themes: (
+    "white": $white,
+    'dark': $dark,
+);
+
+
+@mixin themeify {
+    @each $theme-name, $theme-map in $themes {
+        .theme-#{$theme-name} & {
+            $theme-map: $theme-map !global;
+            @content;
+        }
+    }
+}
+
+@function isStyle($style, $type) {
+    @return map-get(map-get($theme-map, $style), $type);
+}
+
+@mixin styles ($style, $type) {
+    @include themeify {
+        #{$style}: isStyle($style, $type);
+    }
+}

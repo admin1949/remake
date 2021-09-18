@@ -1,0 +1,27 @@
+{
+  "name": "remake",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^0.21.4",
+    "gsap": "^3.7.1",
+    "sass": "^1.41.0",
+    "sass-loader": "^12.1.0",
+    "vue": "^3.2.6",
+    "vue-router": "^4.0.11",
+    "vuex": "^4.0.2",
+    "vuex-typescript-commit-dispatch-prompt": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.1",
+    "@vitejs/plugin-vue": "^1.6.1",
+    "@vue/compiler-sfc": "^3.2.6",
+    "typescript": "^4.3.2",
+    "vite": "^2.5.4",
+    "vue-tsc": "^0.2.2"
+  }
+}
