@@ -42,7 +42,12 @@ export const loadSource = {
     actions: {
         async setSourcePath(context: ActionContext, payload: SourcePath) {
             context.commit('setLoadSouceStatus', 'PENGING');
-            const data = await load(payload, (event) => {
+            const base = process.env.NODE_ENV === 'development' ? '' : '/remake';
+            const data = await load({
+                ageJson: base + payload.ageJson,
+                eventJson: base + payload.eventJson,
+                talentJson: base + payload.talentJson,
+            }, (event) => {
                 context.commit('setLoadProgress', event);
             });
             context.commit('setLoadSouceStatus', 'RESOLVED');
