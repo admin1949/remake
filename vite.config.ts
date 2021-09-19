@@ -19,5 +19,6 @@ export default defineConfig({
         additionalData: '@import "@styles/var.scss";'
       }
     }
-  }
+  },
+  base: '/remake'
 })
