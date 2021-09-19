@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { loadSource, Life } from '../remake';
+import { ElMessage } from '../components/Message'
 
 const progress = ref({
     age: 0,
@@ -19,7 +20,6 @@ loadSource({
     progress.value.event = event.event;
     progress.value.talent = event.talent;
 }).then(res => {
-    console.log(res);
     const data = res.map(i => i.data);
     life.initial({
         age: data[0],
@@ -28,7 +28,7 @@ loadSource({
     });
     loadSourceDone.value = true;
 }).catch(err => {
-    console.log(err);
+    ElMessage.error(err);
 });
 
 const life = new Life;

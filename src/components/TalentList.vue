@@ -21,6 +21,11 @@ const props = defineProps<{
     disableSelect?: boolean,
 }>();
 
+const emit = defineEmits<{
+    (type: 'maxSelected', maxSelectedNum: number): void
+    (type: 'contradicted', selected: number, tobeSelect: number): void
+}>()
+
 const isMaxSelected = () => {
     if (props.maxSelectedNum === -1) {
         return false;
@@ -49,12 +54,12 @@ const selectedItem = (index: number) => {
             item.selected = true;
             return;
         }
-        console.log('max Selected');
+        emit('maxSelected', props.maxSelectedNum);
         return;
     }
     const { hasContradict, contradictId } = checkIsContradicted(item.id);
     if (!item.selected && hasContradict) {
-        console.log('contradicted', contradictId, item.id);
+        emit('contradicted', contradictId, item.id);
         return;
     }
     item.selected = !item.selected;

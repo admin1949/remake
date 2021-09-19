@@ -22,6 +22,7 @@ import { ref, computed } from 'vue';
 import { useStore, getters, commit } from '@store';
 import { useRouter } from 'vue-router';
 import InputItem from '../components/InputItem.vue';
+import { ElMessage } from '../components/Message';
 
 const store = useStore();
 const router = useRouter();
@@ -80,7 +81,7 @@ const setRandomPorty = () => {
 
 const gotoRemakeGame = () => {
     if (canUsePoints.value > 0) {
-        return void console.log('has other point:', canUsePoints.value);
+        return ElMessage.info(`剩余属性点${canUsePoints.value}`);
     }
     router.replace({
         path: '/remake-game',

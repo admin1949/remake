@@ -133,12 +133,28 @@ const gotoResult = () => {
         display: flex;
         justify-content: center;
         flex-direction: column;
-        padding: 8px;
         border: 1px solid #a7a7a7;
         border-radius: 4px;
         font-size: 18px;
         box-sizing: border-box;
         align-items: center;
+        text-align: center;
+        border: 1px solid #ccc;
+        div{
+            width: 100%;
+        }
+        div:first-child{
+            @include themed('white') {
+                background-color: #8d8d8d;
+            }
+            color: #fff;
+        }
+        div:last-child{
+            background-color: #eee;
+            @include themed('dark') {
+                color: #666;
+            }
+        }
         &:last-child{
            margin-right: 0;
         }
@@ -165,7 +181,7 @@ const gotoResult = () => {
             margin-bottom: 0;
         }
         .age{
-            width: 5em;
+            width: 4em;
             text-align: right;
         }
         .info{

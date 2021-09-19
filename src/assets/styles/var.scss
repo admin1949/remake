@@ -87,3 +87,9 @@ $themes: (
         #{$style}: isStyle($style, $type);
     }
 }
+
+@mixin themed($theme-name) {
+    .theme-#{$theme-name} & {
+        @content;
+    }
+}

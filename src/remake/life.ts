@@ -129,6 +129,10 @@ export class Life {
         return this.talent.getAllTalent();
     }
 
+    getTalentItem(talentId: number) {
+        return this.talent.get(talentId);
+    }
+
     talentExtend(talentId: string) {
         localStorage.setItem('extendTalent', JSON.stringify(talentId));
     }

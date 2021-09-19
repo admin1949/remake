@@ -45,7 +45,7 @@
                     width="80"
                     height="80"
                     viewBox="0 0 250 250"
-                    style="fill:#151513; color:#fff; transform: scale(-1, 1);"
+                    style="fill:#151513; color:#fff; transform: scale(1, 1);"
                     aria-hidden="true"
                 >
                     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" />
@@ -120,9 +120,6 @@ const check = () => {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-}
-.top-right{
-    transform: rotate(.25turn);
 }
 .github-corner:hover .octo-arm {
     animation: octocat-wave 560ms ease-in-out;

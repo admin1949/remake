@@ -99,7 +99,7 @@ html, body{
 .main-content{
   height: 100%;
   box-sizing: border-box;
-  padding: 20px 0 30px;
+  padding: 50px 0 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
