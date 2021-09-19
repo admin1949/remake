@@ -42,8 +42,7 @@
                 <div @click="gotoResult" class="button">人生总结</div>
             </template>
             <template v-else>
-                <div @click="autoPlay()" class="button">自动播放</div>
-                <div @click="autoPlay(500)" class="button">自动 x 2</div>
+                <div v-for="(i, index) in autoList" @click="autoPlay(index)" class="button">{{ index === currentAuto ? '立即停止' : i.name }}</div>
             </template>
         </div>
     </div>
@@ -79,6 +78,7 @@ const isEnd = computed<boolean>({
 
 commit('gameResult/setIsEnd', false);
 
+
 const lifeContent = ref<HTMLDivElement>();
 const scrollToButton = () => {
     lifeContent.value?.scrollTo({
@@ -97,14 +97,38 @@ const next = () => {
     nextTick(scrollToButton);
 }
 
+let currentAuto = ref(-1);
+const autoList = [
+    {
+        time: 1000,
+        name: '自动播放'
+    },
+    {
+        time: 500,
+        name: '自动 x 2'
+    },
+    {
+        time: 0,
+        name: '立即结束',
+    }
+]
+
 let interval:any;
-const autoPlay = (time = 1000) => {
+const autoPlay = (index: number) => {
+    if (index === currentAuto.value) {
+        clearInterval(interval);
+        return currentAuto.value = -1;
+    }
+
+    currentAuto.value = index;
+    const time = autoList[index].time;
     if (interval) {
         clearInterval(interval);
     }
     interval = setInterval(() => {
         if (isEnd.value) {
             clearInterval(interval);
+            currentAuto.value = -1;
         }
         next();
     }, time);
