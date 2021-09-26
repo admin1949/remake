@@ -1,6 +1,5 @@
 import { ref, watch, Ref, ComputedRef, computed } from 'vue';
 import { gsap } from 'gsap';
-(window['gsap'] as any) = gsap;
 
 const fixNumber = (val: number, fix = 2) => {
     return Number(Number.prototype.toFixed.call(val, fix));

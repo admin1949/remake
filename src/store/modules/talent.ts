@@ -1,34 +1,47 @@
-import { commit, dispatch, SubModuleActionContext } from '@store';
+import { RootStore } from '@store';
 import { Life } from '@remake';
+import { CreateStoreItem, GetGetterContext, GetState } from 'vuex-typed-helper';
 
-export interface State {
-    selectedTalents: ReturnType<Life['getAllTalent']>,
-    isSuperLife: boolean,
+interface State {
+    selectedTalents: ReturnType<Life['getAllTalent']>;
+    isSuperLife: boolean;
+}
+interface Mutations {
+    setSelectedTalents(state: GetState<StoreItem>, selectedTalents: State['selectedTalents']): void;
+    setIsSuperLife(state: GetState<StoreItem>, isSuperLife: boolean): void;
 }
 
-export const state: State = {
+interface Getters {
+    selectedTalentIds(...args: GetGetterContext<StoreItem, RootStore>): number[];
+}
+
+export type StoreItem = CreateStoreItem<State, Mutations, {}, Getters>;
+
+const state: State = {
     selectedTalents: [],
     isSuperLife: false,
 }
 
-type ActionContext = SubModuleActionContext<State, typeof talent>;
+const mutations: Mutations = {
+    setSelectedTalents(state, selectedTalents) {
+        state.selectedTalents = selectedTalents;
+    },
+    setIsSuperLife(state, isSuperLife) {
+        state.isSuperLife = isSuperLife;
+    },
+}
+
+const getters: Getters = {
+    selectedTalentIds(state) {
+        return state.selectedTalents.map(i => i.id);
+    }
+}
 
 export const talent = {
     namespaced: true,
     state,
-    mutations: {
-        setSelectedTalents(state: State, selectedTalents: State['selectedTalents']) {
-            state.selectedTalents = selectedTalents;
-        },
-        setIsSuperLife(state: State, isSuperLife: boolean) {
-            state.isSuperLife = isSuperLife;
-        }
-    },
-    getters: {
-        selectedTalentIds(state: State) {
-            return state.selectedTalents.map(i => i.id);
-        }
-    },
+    mutations: mutations,
+    getters,
     actions: {
     }
 }

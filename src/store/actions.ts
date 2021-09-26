@@ -1,9 +1,11 @@
-import { ActionTree } from 'vuex';
-import { State } from './state';
+import { GetActionContext } from 'vuex-typed-helper';
+import { RootStore } from '@store';
 
-const actions = {
-    asyncTest({ state }: { state: State }, payload: number) {
-    }
+export interface Actions {
+    asyncTest(ctx: GetActionContext<RootStore>, payload: number): void
 }
 
-export default actions;
+export const actions: Actions = {
+    asyncTest({ state , getters, commit }, payload) {
+    }
+}

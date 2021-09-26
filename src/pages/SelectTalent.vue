@@ -58,6 +58,10 @@ const getTalents = () => {
 
 const verifySelectedTalents = () => {
     if (isSuperLife.value) {
+        if (selectedSuperTalents.value.length < 1) {
+            ElMessage.info(`请至少选择1个天赋, 当前已选择${selectedSuperTalents.value.length}个`);
+            return false;
+        }
         return true;
     }
     if (selectedTanlents.value.length === 3) {

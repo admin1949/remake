@@ -1,7 +1,7 @@
-import { loadSource, state as loadSouceState } from './loadSource';
-import { talent, state as talentState } from './talent';
-import { property, state as PropertyState } from './property';
-import { gameResult, state as gameResultState } from './gemaResult';
+import { loadSource,  StoreItem as LoadSourceStore } from './loadSource';
+import { talent, StoreItem as TalentStore } from './talent';
+import { property, StoreItem as PropertyStore } from './property';
+import { gameResult, StoreItem as GameResultStore } from './gemaResult';
 
 export const modules = {
     loadSource,
@@ -10,9 +10,9 @@ export const modules = {
     gameResult,
 }
 
-export const modulesState = {
-    loadSource: loadSouceState,
-    talent: talentState,
-    property: PropertyState,
-    gameResult: gameResultState,
+export interface Modules {
+    loadSource: LoadSourceStore,
+    talent: TalentStore,
+    property: PropertyStore,
+    gameResult: GameResultStore,
 }

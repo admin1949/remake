@@ -36,6 +36,9 @@ const instances: MessageVm[] = [];
 
 let seed = 1;
 
+const MAX_MSG_INSTANCE_NUM = 1;
+const closeList: { close: () => void }[] = [];
+
 const Message: IMessage = function (
     opt: MessageParams = '',
 ) {
@@ -78,15 +81,19 @@ const Message: IMessage = function (
 
     render(vm, container);
     instances.push(vm);
+    if (instances.length > MAX_MSG_INSTANCE_NUM) {
+        closeList[0]?.close();
+    }
     document.body.appendChild(container.firstElementChild!);
-
-    return {
+    const closeItem = {
         close() {
             (
                 vm.component?.proxy as ComponentPublicInstance<{ visible: boolean }>
             ).visible = false;
         }
     }
+    closeList.push(closeItem);
+    return closeItem
 } as any;
 
 ;(['error', 'info', 'success', 'warning'] as const).forEach(type => {
@@ -120,6 +127,7 @@ const close = (id: string, userClose?:(id: string) => void) => {
 
     const removedHeight = vm.el?.offsetHeight || 0;
     instances.splice(idx, 1);
+    closeList.splice(idx, 1);
 
     instances.forEach((vm, index) => {
         if (idx > index) {

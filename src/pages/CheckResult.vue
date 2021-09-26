@@ -61,7 +61,7 @@ const list = readonly<{key: keyof UnwrapRef<typeof result>, name: string}[]>([
     }
 ]);
 
-const talentList = ref(store.state.talent.selectedTalents.map(i => ({ ...i, selected: false })));
+const talentList = ref(store.state.talent.selectedTalents.map((i, index) => ({ ...i, selected: index === 0 })));
 
 const selectedToSaveTalentId = computed(() => {
     const selectedTalent = talentList.value.filter(i => i.selected);
@@ -77,7 +77,7 @@ const remake = () => {
     commit('talent/setSelectedTalents', []),
     commit('property/resetProperty');
     commit('gameResult/setLastGameSavedTalent', selectedToSaveTalentId.value);
-    router.push('/');
+    router.replace('/select-talent');
 }
 </script>
 

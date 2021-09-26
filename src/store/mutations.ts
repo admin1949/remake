@@ -1,8 +1,11 @@
-import { State } from './state';
+import { RootStore } from '@store';
+import { GetState } from 'vuex-typed-helper';
 
-const mutations = {
-    test(store: State) {
-    },
+export interface Mutations {
+    test(ctx: GetState<RootStore>): void
 }
 
-export default mutations;
+export const mutations: Mutations = {
+    test(state) {
+    },
+}

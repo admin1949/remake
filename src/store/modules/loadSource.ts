@@ -1,6 +1,8 @@
-import { commit, dispatch, SubModuleActionContext } from '@store';
+import { RootStore } from '@store';
+import { CreateStoreItem, GetActionContext, GetState } from 'vuex-typed-helper';
 import { loadSource as load } from '@remake';
-export interface State {
+
+interface State {
     loadSouceStatus: 'PENGING' | 'RESOLVED' | 'REJECTED',
     progress: {
         age: number,
@@ -8,8 +10,25 @@ export interface State {
         talent: number,
     }
 }
+interface Mutations {
+    setLoadProgress(state: GetState<StoreItem>, progress: State['progress']): void,
+    setLoadSouceStatus(state: GetState<StoreItem>, status: State['loadSouceStatus']): void
+};
 
-export const state: State = {
+interface SourcePath {
+    ageJson: string,
+    eventJson: string,
+    talentJson: string,
+}
+
+interface Actions {
+    setSourcePath(context: GetActionContext<StoreItem, RootStore>, payload: SourcePath): Promise<{ age: any, event: any, talent: any}>
+};
+
+export type StoreItem = CreateStoreItem<State, Mutations, Actions>;
+
+
+const state: State = {
     loadSouceStatus: 'PENGING',
     progress: {
         age: 0,
@@ -18,44 +37,40 @@ export const state: State = {
     },
 }
 
-type ActionContext = SubModuleActionContext<State, typeof loadSource>
+const mutations: Mutations = {
+    setLoadProgress(state, progress) {
+        state.progress.age = progress.age;
+        state.progress.event = progress.event;
+        state.progress.talent = progress.talent;
+    },
+    setLoadSouceStatus(state, status) {
+        state.loadSouceStatus = status;
+    }
+}
 
-interface SourcePath {
-    ageJson: string,
-    eventJson: string,
-    talentJson: string,
+const actions: Actions = {
+    async setSourcePath({ commit, rootState }, payload) {
+        commit('setLoadSouceStatus', 'PENGING');
+        const base = process.env.NODE_ENV === 'development' ? '' : '/remake';
+        const data = await load({
+            ageJson: base + payload.ageJson,
+            eventJson: base + payload.eventJson,
+            talentJson: base + payload.talentJson,
+        }, (event) => {
+            commit('setLoadProgress', event);
+        });
+        commit('setLoadSouceStatus', 'RESOLVED');
+        return {
+            age: data[0].data,
+            event: data[1].data,
+            talent: data[2].data,
+        };
+    }
 }
 
 export const loadSource = {
     namespaced: true,
     state,
-    mutations: {
-        setLoadProgress(state: State, progress: State['progress']) {
-            state.progress.age = progress.age;
-            state.progress.event = progress.event;
-            state.progress.talent = progress.talent;
-        },
-        setLoadSouceStatus(state: State, status: State['loadSouceStatus']) {
-            state.loadSouceStatus = status;
-        }
-    },
-    actions: {
-        async setSourcePath(context: ActionContext, payload: SourcePath) {
-            context.commit('setLoadSouceStatus', 'PENGING');
-            const base = process.env.NODE_ENV === 'development' ? '' : '/remake';
-            const data = await load({
-                ageJson: base + payload.ageJson,
-                eventJson: base + payload.eventJson,
-                talentJson: base + payload.talentJson,
-            }, (event) => {
-                context.commit('setLoadProgress', event);
-            });
-            context.commit('setLoadSouceStatus', 'RESOLVED');
-            return {
-                age: data[0].data,
-                event: data[1].data,
-                talent: data[2].data,
-            };
-        }
-    }
+    mutations,
+    actions,
 }
