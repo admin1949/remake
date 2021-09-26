@@ -88,8 +88,8 @@ const Message: IMessage = function (
     const closeItem = {
         close() {
             (
-                vm.component?.proxy as ComponentPublicInstance<{ visible: boolean }>
-            ).visible = false;
+                vm.component?.exposed as ComponentPublicInstance<{ close: () => void }>
+            ).close();
         }
     }
     closeList.push(closeItem);
@@ -128,7 +128,6 @@ const close = (id: string, userClose?:(id: string) => void) => {
     const removedHeight = vm.el?.offsetHeight || 0;
     instances.splice(idx, 1);
     closeList.splice(idx, 1);
-
     instances.forEach((vm, index) => {
         if (idx > index) {
             return

@@ -82,6 +82,12 @@ const close = () => {
     visible.value = false;
 }
 
+defineExpose({
+    close() {
+        visible.value =false;
+    }
+})
+
 </script>
 
 <style lang="scss">
